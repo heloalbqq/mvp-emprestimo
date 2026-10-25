@@ -1,0 +1,151 @@
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2 {
+  margin-top: 24px;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+form,
+section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 8px 24px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.row .field {
+  flex: 1 1 160px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+button {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.notice {
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+  background: #e5e7eb;
+}
+
+.notice.good {
+  background: #dcfce7;
+}
+
+.notice.bad {
+  background: #fee2e2;
+}
+
+.cards {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-left: 6px solid #9ca3af;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.card.aprovado {
+  border-left-color: #16a34a;
+}
+
+.card.reprovado {
+  border-left-color: #dc2626;
+}
+
+.card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card h3 {
+  margin: 0;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+.best-tag {
+  margin: 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #15803d;
+}
+
+dl {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 8px 0 0;
+}
+
+dt {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+dd {
+  margin: 0;
+  font-weight: 600;
+}
