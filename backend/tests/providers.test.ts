@@ -17,6 +17,7 @@ const base: SimulationRequest = {
   cnpjEmpregador: "11222333000181",
   valorSolicitado: 10000,
   prazoMeses: 24,
+  perfilCredito: { negativado: false, score: 700 },
 };
 
 const alfa = new AlfaProvider((req) => alfaApi(req, NO_NETWORK));

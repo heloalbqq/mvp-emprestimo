@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
+import type { PerfilCredito } from "../domain/credit-profile";
 import type { BankResult, BankStatus, SimulationRequest } from "../domain/simulation";
 import type { SimulationResponse } from "../domain/simulation-response";
 import type { BankProvider } from "../providers/bank-provider";
 import { BankIntegrationError } from "../shared/errors";
 import { maskCpf } from "../shared/mask";
 import { TimeoutError, withTimeout } from "../shared/timeout";
+import type { CreditBureau } from "./credit-biro";
 
 export interface SimulationServiceOptions {
   timeoutMs: number;
@@ -25,13 +27,17 @@ export class SimulationService {
   constructor(
     private readonly providers: BankProvider[],
     options: Partial<SimulationServiceOptions> = {},
+    private readonly bureau?: CreditBureau,
   ) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
   }
 
   async simulate(request: SimulationRequest): Promise<SimulationResponse> {
+    const perfilCredito = await this.fetchCreditProfile(request.cpf);
+    const enriched: SimulationRequest = { ...request, perfilCredito };
+
     const settled = await Promise.allSettled(
-      this.providers.map((provider) => this.callWithRetry(provider, request)),
+      this.providers.map((provider) => this.callWithRetry(provider, enriched)),
     );
 
     const resultados = settled
@@ -66,6 +72,19 @@ export class SimulationService {
     };
   }
 
+  private async fetchCreditProfile(cpf: string): Promise<PerfilCredito | undefined> {
+    if (!this.bureau) return undefined;
+
+    for (let attempt = 0; attempt <= this.options.retries; attempt++) {
+      try {
+        return await withTimeout(this.bureau.consultar(cpf), this.options.timeoutMs);
+      } catch (error) {
+        if (error instanceof TimeoutError) break; 
+      }
+    }
+    return undefined;
+  }
+
   private async callWithRetry(
     provider: BankProvider,
     request: SimulationRequest,
@@ -75,6 +94,7 @@ export class SimulationService {
       try {
         return await withTimeout(provider.simulate(request), this.options.timeoutMs);
       } catch (error) {
+        
         const retryable =
           !(error instanceof BankIntegrationError) && !(error instanceof TimeoutError);
         if (!retryable || attempt >= this.options.retries) throw error;

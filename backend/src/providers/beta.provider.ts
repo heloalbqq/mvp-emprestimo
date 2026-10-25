@@ -24,8 +24,14 @@ export class BetaProvider implements BankProvider {
       };
     }
 
-    if (res.codigoRetorno === 1 || res.codigoRetorno === 2) {
+    // 1 a 4 são recusas de crédito
+    if (res.codigoRetorno >= 1 && res.codigoRetorno <= 4) {
       return { banco: this.name, status: "REPROVADO", motivo: res.mensagem };
+    }
+
+    // 5 não é recusa: o banco não conseguiu decidir
+    if (res.codigoRetorno === 5) {
+      throw new BankIntegrationError(this.name, "Sem dados de crédito do cliente");
     }
 
     throw new BankIntegrationError(this.name, "Resposta fora do contrato");

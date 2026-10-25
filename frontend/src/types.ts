@@ -28,4 +28,5 @@ export interface SimulationPayload {
   salario: number | null;
   valorSolicitado: number | null;
   prazoMeses: number | null;
+  consentimento: boolean;
 }

@@ -2,10 +2,15 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { createDefaultProviders } from "./providers";
 import { simulationsRoutes } from "./routes/simulation.route";
+import { FakeCreditBureau } from "./services/credit-biro";
 import { SimulationService } from "./services/simulation.service";
 
 export function buildApp(
-  service: SimulationService = new SimulationService(createDefaultProviders()),
+  service: SimulationService = new SimulationService(
+    createDefaultProviders(),
+    {},
+    new FakeCreditBureau(),
+  ),
   options: { logger?: boolean } = {},
 ) {
   const app = Fastify({ logger: options.logger ?? true });

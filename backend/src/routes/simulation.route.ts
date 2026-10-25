@@ -16,7 +16,8 @@ export function simulationsRoutes(service: SimulationService): FastifyPluginAsyn
         return reply.status(400).send({ erro: "Dados inválidos", campos });
       }
 
-      const response = await service.simulate(parsed.data);
+      const { consentimento: _consentimento, ...dados } = parsed.data;
+      const response = await service.simulate(dados);
 
       request.log.info(
         { simulationId: response.id, cpf: response.solicitante.cpf, resumo: response.resumo },

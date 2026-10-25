@@ -35,6 +35,7 @@ describe("simulationSchema", () => {
     cnpjEmpregador: "11.222.333/0001-81",
     valorSolicitado: 10000,
     prazoMeses: 24,
+    consentimento: true,
   };
 
   it("normaliza CPF, CNPJ e e-mail", () => {

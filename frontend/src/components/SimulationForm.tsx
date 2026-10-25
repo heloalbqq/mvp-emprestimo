@@ -39,6 +39,7 @@ function Field({
 
 export function SimulationForm({ loading, fieldErrors, onSubmit }: Props) {
   const [form, setForm] = useState(initialState);
+  const [consentimento, setConsentimento] = useState(false);
 
   function set(field: keyof typeof initialState, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -56,6 +57,7 @@ export function SimulationForm({ loading, fieldErrors, onSubmit }: Props) {
       salario: toNumber(form.salario),
       valorSolicitado: toNumber(form.valorSolicitado),
       prazoMeses: toNumber(form.prazoMeses),
+      consentimento,
     });
   }
 
@@ -129,9 +131,23 @@ export function SimulationForm({ loading, fieldErrors, onSubmit }: Props) {
         </Field>
       </div>
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Consultando bancos..." : "Simular"}
-      </button>
+      <label className="consent">
+        <input
+          type="checkbox"
+          checked={consentimento}
+          onChange={(e) => setConsentimento(e.target.checked)}
+        />
+        <span>Autorizo a consulta ao meu histórico de crédito.</span>
+      </label>
+      {fieldErrors.consentimento && (
+        <small className="error">{fieldErrors.consentimento}</small>
+      )}
+
+      <div>
+        <button type="submit" disabled={loading}>
+          {loading ? "Consultando bancos..." : "Simular"}
+        </button>
+      </div>
     </form>
   );
 }

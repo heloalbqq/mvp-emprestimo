@@ -1,3 +1,5 @@
+import type { PerfilCredito } from "./credit-profile";
+
 export interface SimulationRequest {
   nome: string;
   email: string;
@@ -6,7 +8,8 @@ export interface SimulationRequest {
   cnpjEmpregador: string; 
   valorSolicitado: number;
   prazoMeses: number;
-} //cpf salario e cnpj sao so digitos
+  perfilCredito?: PerfilCredito; 
+}
 
 export type BankStatus = "APROVADO" | "REPROVADO" | "INDISPONIVEL";
 

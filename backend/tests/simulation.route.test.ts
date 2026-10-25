@@ -21,6 +21,7 @@ const validBody = {
   cnpjEmpregador: "11.222.333/0001-81",
   valorSolicitado: 10000,
   prazoMeses: 24,
+  consentimento: true,
 };
 
 describe("POST /simulations", () => {
