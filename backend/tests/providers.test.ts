@@ -33,11 +33,11 @@ describe("finance", () => {
   });
 });
 
-describe("Banco Alfa", () => {
+describe("Aurora Bank", () => {
   it("aprova quando a parcela cabe na margem", async () => {
     const r = await alfa.simulate(base);
     expect(r.status).toBe("APROVADO");
-    expect(r.banco).toBe("Banco Alfa");
+    expect(r.banco).toBe("Aurora Bank");
     expect(r.valorParcela).toBeGreaterThan(0);
   });
   it("reprova quando a parcela estoura a margem", async () => {
@@ -51,7 +51,7 @@ describe("Banco Alfa", () => {
   });
 });
 
-describe("Banco Beta", () => {
+describe("Banco Imperial", () => {
   it("aprova e converte a taxa anual para mensal", async () => {
     const r = await beta.simulate(base);
     expect(r.status).toBe("APROVADO");
@@ -68,7 +68,7 @@ describe("Banco Beta", () => {
   });
 });
 
-describe("Banco Gama", () => {
+describe("Sterling & Co.", () => {
   it("aprova e interpreta os textos da resposta", async () => {
     const r = await gama.simulate(base);
     expect(r.status).toBe("APROVADO");

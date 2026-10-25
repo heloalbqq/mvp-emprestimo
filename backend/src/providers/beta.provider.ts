@@ -7,7 +7,7 @@ import { betaApi, type BetaResponse } from "./external/beta.api";
 type BetaApi = (request: SimulationRequest) => Promise<BetaResponse>;
 
 export class BetaProvider implements BankProvider {
-  readonly name = "Banco Beta";
+  readonly name = "Banco Imperial";
 
   constructor(private readonly api: BetaApi = betaApi) {}
 

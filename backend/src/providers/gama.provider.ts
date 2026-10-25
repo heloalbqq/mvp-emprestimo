@@ -23,7 +23,7 @@ function parseBRL(text: string): number {
 }
 
 export class GamaProvider implements BankProvider {
-  readonly name = "Banco Gama";
+  readonly name = "Sterling & Co.";
 
   constructor(private readonly api: GamaApi = gamaApi) {}
 

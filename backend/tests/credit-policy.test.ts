@@ -36,14 +36,14 @@ const alfa = new AlfaProvider((req) => alfaApi(req, NO_NETWORK));
 const beta = new BetaProvider((req) => betaApi(req, NO_NETWORK));
 const gama = new GamaProvider((req) => gamaApi(req, NO_NETWORK));
 
-describe("política de crédito: Banco Alfa", () => {
+describe("política de crédito: Aurora Bank", () => {
   it("ignora a negativação (a garantia é o desconto em folha)", async () => {
     const r = await alfa.simulate(comPerfil(negativado));
     expect(r.status).toBe("APROVADO");
   });
 });
 
-describe("política de crédito: Banco Beta", () => {
+describe("política de crédito: Banco Imperial", () => {
   it("aprova cliente com bom perfil", async () => {
     expect((await beta.simulate(comPerfil(bom))).status).toBe("APROVADO");
   });
@@ -70,7 +70,7 @@ describe("política de crédito: Banco Beta", () => {
   });
 });
 
-describe("política de crédito: Banco Gama", () => {
+describe("política de crédito: Sterling & Co.", () => {
   it("cobra a taxa normal de quem tem bom perfil", async () => {
     const r = await gama.simulate(comPerfil(bom));
     expect(r.status).toBe("APROVADO");
@@ -174,18 +174,18 @@ describe("fluxo completo com os três bancos", () => {
   it("CPF negativado: Alfa aprova, Beta reprova, Gama aprova com taxa maior", async () => {
     const res = await service.simulate({ ...base, cpf: "98765432100" });
 
-    expect(find(res, "Banco Alfa")?.status).toBe("APROVADO");
-    expect(find(res, "Banco Beta")?.status).toBe("REPROVADO");
-    expect(find(res, "Banco Gama")?.status).toBe("APROVADO");
-    expect(find(res, "Banco Gama")?.taxaMensal).toBeCloseTo(0.027, 5);
+    expect(find(res, "Aurora Bank")?.status).toBe("APROVADO");
+    expect(find(res, "Banco Imperial")?.status).toBe("REPROVADO");
+    expect(find(res, "Sterling & Co.")?.status).toBe("APROVADO");
+    expect(find(res, "Sterling & Co.")?.taxaMensal).toBeCloseTo(0.027, 5);
   });
 
   it("CPF com score baixo: só o Beta reprova", async () => {
     const res = await service.simulate({ ...base, cpf: "14725836982" });
 
-    expect(find(res, "Banco Alfa")?.status).toBe("APROVADO");
-    expect(find(res, "Banco Beta")?.motivo).toContain("Score");
-    expect(find(res, "Banco Gama")?.taxaMensal).toBeCloseTo(0.021, 5);
+    expect(find(res, "Aurora Bank")?.status).toBe("APROVADO");
+    expect(find(res, "Banco Imperial")?.motivo).toContain("Score");
+    expect(find(res, "Sterling & Co.")?.taxaMensal).toBeCloseTo(0.021, 5);
   });
 
   it("CPF com bom perfil: os três aprovam", async () => {
@@ -202,8 +202,8 @@ describe("fluxo completo com os três bancos", () => {
     );
     const res = await semBireau.simulate(base);
 
-    expect(find(res, "Banco Alfa")?.status).toBe("APROVADO");
-    expect(find(res, "Banco Beta")?.status).toBe("INDISPONIVEL");
-    expect(find(res, "Banco Gama")?.taxaMensal).toBeCloseTo(0.027, 5);
+    expect(find(res, "Aurora Bank")?.status).toBe("APROVADO");
+    expect(find(res, "Banco Imperial")?.status).toBe("INDISPONIVEL");
+    expect(find(res, "Sterling & Co.")?.taxaMensal).toBeCloseTo(0.027, 5);
   });
 });

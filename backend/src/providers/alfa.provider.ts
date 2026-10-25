@@ -10,7 +10,7 @@ const REASONS: Record<string, string> = {
 };
 
 export class AlfaProvider implements BankProvider {
-  readonly name = "Banco Alfa";
+  readonly name = "Aurora Bank";
 
   constructor(private readonly api: AlfaApi = alfaApi) {}
 

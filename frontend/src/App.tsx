@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { createSimulation, ValidationError } from "./api";
+import { LoadingOverlay } from "./components/LoadingOverlay";
 import { Results } from "./components/Results";
 import { SimulationForm } from "./components/SimulationForm";
 import type { SimulationPayload, SimulationResponse } from "./types";
@@ -29,21 +30,38 @@ export default function App() {
   }
 
   return (
-    <main>
-      <h1>Simulador de Consignado</h1>
-      <p className="muted">Protótipo com bancos e dados fictícios.</p>
+    <>
+      <header className="topbar">
+        <div className="topbar-inner">
+          <div className="brand">
+            <span className="logo">◆</span>
+            <span>Simulador de Consignado</span>
+          </div>
+          <h1 className="hero-title">Compare bancos e escolha a melhor oferta</h1>
+          <p className="hero-sub">Uma simulação, vários bancos, respostas em segundos.</p>
+        </div>
+      </header>
 
-      {error && <div className="notice bad">{error}</div>}
+      <main>
+        {error && <div className="notice bad">{error}</div>}
 
-      {result ? (
-        <Results data={result} onReset={() => setResult(null)} />
-      ) : (
-        <SimulationForm
-          loading={loading}
-          fieldErrors={fieldErrors}
-          onSubmit={handleSubmit}
-        />
-      )}
-    </main>
+        {result ? (
+          <Results data={result} onReset={() => setResult(null)} />
+        ) : (
+          <SimulationForm
+            loading={loading}
+            fieldErrors={fieldErrors}
+            onSubmit={handleSubmit}
+          />
+        )}
+      </main>
+
+      <footer className="footer">
+        Protótipo com bancos e dados fictícios. Nenhuma informação é enviada a
+        instituições reais.
+      </footer>
+
+      {loading && <LoadingOverlay />}
+    </>
   );
 }
